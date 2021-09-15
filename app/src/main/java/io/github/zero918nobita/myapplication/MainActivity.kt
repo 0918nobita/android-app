@@ -10,13 +10,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val viewModel =
+            ViewModelProvider(
+                this,
+                ViewModelProvider.NewInstanceFactory()
+            ).get(MainViewModel::class.java)
 
         val textView = findViewById<TextView>(R.id.text)
         viewModel.text.onEach {
