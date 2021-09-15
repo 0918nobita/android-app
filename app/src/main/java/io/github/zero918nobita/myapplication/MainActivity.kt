@@ -6,10 +6,8 @@ import android.widget.Button
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        init {
-            System.loadLibrary("native-lib")
-        }
+    init {
+        System.loadLibrary("native-lib")
     }
 
     private external fun getStr(): String
