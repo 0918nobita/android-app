@@ -5,6 +5,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by lazy {
@@ -16,9 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val textView = findViewById<TextView>(R.id.text)
-        viewModel.text.observe(this) {
+        viewModel.text.onEach {
             textView.text = it
-        }
+        }.launchIn(lifecycleScope)
 
         val btn = findViewById<Button>(R.id.button)
         btn.setOnClickListener { viewModel.updateText() }
