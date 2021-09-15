@@ -6,16 +6,24 @@ plugins {
 android {
     compileSdkVersion 31
     buildToolsVersion '30.0.3'
+    ndkVersion '23.0.7599858'
 
     defaultConfig {
         applicationId "io.github.zero918nobita.myapplication"
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_static'
+            }
+        }
     }
+
+    externalNativeBuild.cmake.path = "src/main/jni/CMakeLists.txt"
 
     buildTypes {
         release {
@@ -23,13 +31,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
+    kotlinOptions.jvmTarget = '1.8'
 }
 
 dependencies {
