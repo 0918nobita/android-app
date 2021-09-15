@@ -1,22 +1,26 @@
 package io.github.zero918nobita.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
-    init {
-        System.loadLibrary("native-lib")
+    private val viewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
     }
-
-    private external fun getStr(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val textView = findViewById<TextView>(R.id.text)
+        viewModel.text.observe(this) {
+            textView.text = it
+        }
+
         val btn = findViewById<Button>(R.id.button)
-        btn.setOnClickListener { textView.text = getStr() }
+        btn.setOnClickListener { viewModel.updateText() }
     }
 }
