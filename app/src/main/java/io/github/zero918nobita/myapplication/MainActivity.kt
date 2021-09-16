@@ -1,15 +1,20 @@
 package io.github.zero918nobita.myapplication
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import io.github.zero918nobita.myapplication.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import io.github.zero918nobita.myapplication.databinding.ActivityMainBinding
+import io.github.zero918nobita.myapplication.viewModel.MainViewModel
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         val view = binding.root
         setContentView(view)
-
-        val viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.NewInstanceFactory()
-            ).get(MainViewModel::class.java)
 
         viewModel.text.onEach {
             binding.text.text = it
