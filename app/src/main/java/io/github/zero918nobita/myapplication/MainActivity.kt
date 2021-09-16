@@ -1,18 +1,23 @@
 package io.github.zero918nobita.myapplication
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import io.github.zero918nobita.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        val view = binding.root
+        setContentView(view)
 
         val viewModel =
             ViewModelProvider(
@@ -20,12 +25,10 @@ class MainActivity : AppCompatActivity() {
                 ViewModelProvider.NewInstanceFactory()
             ).get(MainViewModel::class.java)
 
-        val textView = findViewById<TextView>(R.id.text)
         viewModel.text.onEach {
-            textView.text = it
+            binding.text.text = it
         }.launchIn(lifecycleScope)
 
-        val btn = findViewById<Button>(R.id.button)
-        btn.setOnClickListener { viewModel.updateText() }
+        binding.button.setOnClickListener { viewModel.updateText() }
     }
 }

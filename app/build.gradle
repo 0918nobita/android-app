@@ -8,6 +8,8 @@ android {
     buildToolsVersion '30.0.3'
     ndkVersion '23.0.7599858'
 
+    viewBinding.enabled = true
+
     defaultConfig {
         applicationId 'io.github.zero918nobita.myapplication'
         minSdkVersion 24
